@@ -1,6 +1,6 @@
 import express from "express";
 import cors from "cors";
-import { Schema } from "mongoose";
+import { model, Schema } from "mongoose";
 
 const app = express();
 app.use(cors());
@@ -36,20 +36,41 @@ app.get("/", (req, res) => {
 
   //creating schema using interface
   const userSchema = new Schema<IUser>({
-    id:{type:String, required:true, unique:true},
-    role:{type:String, required:true},
-    password:{type:String, required:true},
-    name:{
-      firstName:{type:String, required:true},
-      lastName:{type:String, required:true}
+    id: { type: String, required: true, unique: true },
+    role: { type: String, required: true },
+    password: { type: String, required: true },
+    name: {
+      firstName: { type: String, required: true },
+      lastName: { type: String, required: true },
     },
-    dob: {type:String},
-    gender: {type:String, enum:['male' , 'female']},
-    email: {type:String, required:true},
-    phone: {type:String, required:true},
-    address: {type:String},
+    dob: { type: String },
+    gender: { type: String, enum: ["male", "female"] },
+    email: { type: String, required: true },
+    phone: { type: String, required: true },
+    address: { type: String },
   });
 
+  const UserModel = model<IUser>("user", userSchema);
+
+  async function createUser() {
+    const user = new UserModel({
+      id: "001",
+      role: "user",
+      password: "string",
+      name: {
+        firstName: "KM Sazzadul",
+        lastName: "Islam",
+      },
+      gender: "male",
+      email: "sazadulbg@gmail.com",
+      phone: "01755632445",
+    });
+
+    await user.save();
+    console.log(user);
+  }
+
+  createUser();
 });
 
 export default app;

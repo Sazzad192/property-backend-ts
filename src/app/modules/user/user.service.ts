@@ -1,19 +1,13 @@
+import { IUser } from "./user.interface";
 import UserModel from "./user.model";
 
-export async function createUserToDB() {
-    const user = new UserModel({
-      id: "003",
-      role: "user",
-      password: "string",
-      name: {
-        firstName: "KM Sazzadul",
-        lastName: "Islam",
-      },
-      gender: "male",
-      email: "sazadulbg@gmail.com",
-      phone: "01755632445",
-    });
-
+export async function createUserToDB(payload:IUser) : Promise <IUser> {
+    const user = new UserModel(payload);
     await user.save();
     return user;
+  }
+
+  export async function getUsersFromDB() {
+    const users = await UserModel.find();
+    return users;
   }

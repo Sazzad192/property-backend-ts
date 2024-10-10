@@ -11,3 +11,9 @@ export async function createUserToDB(payload:IUser) : Promise <IUser> {
     const users = await UserModel.find();
     return users;
   }
+
+
+  export async function getUserByIdFromDB(payload: string): Promise <IUser | null> {
+    const user = await UserModel.findOne({id:payload});
+    return user;
+  }
